@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CoLab Archives: Demo — CoLab Archives: The Chamber</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --parchment: #f5f0e8;
+      --copper: #d4842a;
+      --gold: #c9a84c;
+      --gold-dim: #7a6230;
+      --ash: #888880;
+      --royal-purple: #6b4ba1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--parchment);
+      font-family: 'EB Garamond', serif;
+      min-height: 100vh;
+    }
+
+    /*bg*/
+    .castle-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -5;
+      opacity: 0.7;
+    }
+
+    .hall-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -5;
+      opacity: 0.6;
+      display: none;
+    }
+
+    .hall-bg.active { display: block; }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /*wrapper*/
+    #main { position: relative; z-index: 2; }
+
+    /*landing page*/
+    #landing-page {
+      min-height: 175vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    .title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(40px, 8vw, 80px);
+      font-weight: bold;
+      letter-spacing: 8px;
+      background: linear-gradient(135deg, var(--copper), var(--royal-purple), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 14.5px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    /*letter slot*/
+    .letter-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 17px 0;
+    }
+
+    .letter-slot {
+      width: clamp(55px, 13vw, 80px);
+      height: clamp(95px, 15vw, 100px);
+      border: 1px solid rgba(152, 119, 210, 0.703);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.6s;
+    }
+
+    .letter-slot.locked .glyph {
+      font-size: clamp(24px, 5vw, 40px);
+      color: rgba(107,75,161,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    .letter-slot.revealed {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.05);
+      box-shadow: 0 0 30px rgba(201,168,76,0.4);
+    }
+
+    .letter-slot.revealed .glyph {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .letter-caption {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-top: 8px;
+    }
+
+    /*welcom*/
+    .welcome {
+      max-width: 860px;
+      text-align: center;
+      margin: 15px auto;
+      font-style: normal;
+      font-size: 25px;
+      line-height: 1.8;
+      color: var(--white);
+    }
+
+    .welcome em {
+      color: var(--gold);
+    }
+
+    /*scroll*/
+    .teams-section {
+      width: 100%;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .teams-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 5px;
+      font-weight: bold;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .scroll-container {
+      position: relative;
+      overflow: hidden;
+      padding: 0 60px;
+    }
+
+    .scroll-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: rgba(107, 73, 167, 0.3);
+      border: 1px solid rgba(116, 83, 173, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      font-size: 20px;
+      color: var(--gold);
+    }
+
+    .scroll-arrow:hover {
+      background: rgba(107,75,161,0.6);
+      border-color: var(--gold);
+    }
+
+    .scroll-arrow.left { left: 10px; }
+    .scroll-arrow.right { right: 10px; }
+
+    .teams-scroll {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 20px 0;
+      scrollbar-width: none;
+    }
+
+    .teams-scroll::-webkit-scrollbar { display: none; }
+
+    .team-card {
+      min-width: 160px;
+      flex-shrink: 0;
+      border: 1px solid rgba(107,75,161,0.2);
+      background: rgba(0,0,0,0.5);
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .team-card:hover {
+      border-color: var(--royal-purple);
+      background: rgba(107,75,161,0.08);
+      transform: translateY(-4px);
+    }
+
+    .team-card.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+
+    .team-img {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+      border: 2px solid rgba(107,75,161,0.4);
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .team-card.selected .team-img {
+      border-color: var(--gold);
+    }
+
+    .team-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .team-name {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      letter-spacing: 3px;
+      color: var(--parchment);
+      margin-bottom: 4px;
+    }
+
+    /*enter btn*/
+    .enter-section {
+      text-align: center;
+      margin: 2px 0;
+    }
+
+    .enter-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      padding: 16px 48px;
+      border: 2px solid var(--copper);
+      background: rgba(212,132,42,0.1);
+      color: var(--copper);
+      cursor: pointer;
+    }
+
+    .enter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+    }
+
+    .enter-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /*dashboard*/
+    #dashboard {
+      display: none;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    #dashboard.active { display: block; }
+
+    .panel {
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(0,0,0,0.7);
+      margin-bottom: 24px;
+      padding: 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .welcome-banner {
+      text-align: center;
+      margin-bottom: 17px;
+    }
+
+    .welcome-house {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 24px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .welcome-sub {
+      font-style: italic;
+      color: var(--ash);
+      font-size: 16px;
+    }
+
+    /*challenges*/
+    .challenge-item {
+      border: 1px solid rgba(107,75,161,0.2);
+      background: rgba(0,0,0,0.5);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .challenge-item:hover {
+      background: rgba(107,75,161,0.05);
+    }
+
+    .challenge-item.locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .challenge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .challenge-number {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 18px;
+      color: var(--royal-purple);
+    }
+
+    .challenge-status {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 2px;
+      padding: 4px 12px;
+      border: 1px solid;
+    }
+
+    .status-unlocked {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .status-locked {
+      color: var(--ash);
+      border-color: var(--ash);
+    }
+
+    .challenge-name {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      color: var(--parchment);
+      margin-bottom: 6px;
+    }
+
+    .challenge-desc {
+      font-style: italic;
+      font-size: 18px;
+      color: var(--ash);
+    }
+
+    /*leaderboard*/
+    .leaderboard-table { width: 100%; border-collapse: collapse; }
+    .leaderboard-table th {
+      font-family: 'Cinzel', serif; font-size: 17px; letter-spacing: 3px;
+      color: var(--gold-dim); text-transform: uppercase; text-align: left;
+      padding: 8px 12px; border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .leaderboard-table td {
+      padding: 12px; font-size: 16px; color: var(--ash);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .leaderboard-table tbody tr:first-child td { color: var(--gold); }
+    .leaderboard-table tbody tr:first-child td:first-child::before { content: '✦ '; }
+    .team-badge { font-family: 'Cinzel', serif; font-size: 15px; }
+    .progress-dots { display: flex; gap: 5px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); background: transparent; }
+    .dot.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(201,168,76,0.5); }
+
+    /*passcode*/
+    .passcode-section {
+      text-align: center;
+    }
+
+    .passcode-lore {
+      font-style: italic;
+      color: var(--ash);
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 21px;
+    }
+
+    .passcode-lore em {
+      color: var(--gold);
+      font-size: 21px;
+    }
+
+    .passcode-input-wrap {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .passcode-input {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 32px;
+      letter-spacing: 12px;
+      padding: 12px;
+      background: rgba(0,0,0,0.7);
+      border: 2px solid rgba(107,75,161,0.3);
+      color: var(--gold);
+      text-align: center;
+      width: 300px;
+    }
+
+    .passcode-input:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    .cast-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      letter-spacing: 3px;
+      padding: 12px 24px;
+      border: 2px solid var(--copper);
+      background: rgba(212,132,42,0.1);
+      color: var(--copper);
+      cursor: pointer;
+    }
+
+    .cast-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .passcode-error {
+      font-size: 18.5px;
+      color: #ad4a4a;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .passcode-error.show {
+      opacity: 1;
+    }
+
+    /* WIN SCREEN */
+    #win-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+    }
+
+    #win-screen.show { display: flex; }
+
+    .win-spark-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.8;
+    }
+
+    .win-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(48px, 10vw, 96px);
+      color: var(--gold);
+      font-weight: bold;
+      text-shadow: 0 0 40px rgba(201,168,76,0.8);
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+
+    .win-house {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 32px;
+      z-index: 1;
+    }
+
+    .win-sub {
+      font-size: 22px;
+      color: var(--gold);
+      max-width: 600px;
+      z-index: 1;
+    }
+
+    .win-sub em {
+      color: var(--gold);
+    }
+
+    /* AUDIO TOGGLE */
+    .audio-toggle {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 24px;
+  color: var(--gold);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  z-index: 1000;
+  border: none;
+  background: none;
+  padding: 0;
+  width: auto;
+  height: auto;
+}
+
+.audio-toggle:hover {
+  opacity: 1;
+}
+
+.audio-toggle.muted {
+  opacity: 0.3;
+}
+
+.audio-toggle img {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) saturate(100%) invert(73%) sepia(18%) saturate(1015%) hue-rotate(359deg) brightness(95%) contrast(85%);
+}
+  </style>
+</head>
+<body>
+
+<!-- CASTLE VIDEO -->
+<video class="castle-bg" id="castle-video" autoplay loop playsinline>
+  <source src="castle.mp4" type="video/mp4">
+</video>
+
+<!--lobby area hall-->
+<div class="hall-bg" id="hall-bg">
+  <video autoplay loop muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+    <source src="lobby.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- SOUND EFFECTS -->
+<audio id="click-sound" preload="auto">
+  <source src="clicks.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="hover-sound" preload="auto">
+  <source src="hover.mp3" type="audio/mpeg">
+</audio>
+
+<!--audio-->
+<div class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">
+  <img src="icon.png" alt="sound" id="audio-icon">
+</div>
+<div id="main">
+
+  <!--landing pageee-->
+  <div id="landing-page">
+    
+    <div style="text-align:center;
+    font-weight: bold;
+    margin-bottom:12px;
+    font-family:'Cinzel',serif;
+    font-size:14px;
+    letter-spacing:6px;
+    color:var(--gold);">
+      SEASON 2: COLAB ARCHIVES
+    </div>
+
+    <h1 class="title">THE CHAMBER</h1>
+    <div class="subtitle">The Circuit Awakens</div>
+
+    <!--letter slots-->
+    <div class="letter-row" id="letter-row-landing">
+      <div class="letter-slot locked"><span class="glyph">✦</span></div>
+      <div class="letter-slot locked"><span class="glyph">✦</span></div>
+      <div class="letter-slot locked"><span class="glyph">✦</span></div>
+    </div>
+    <div class="letter-caption">Five Keys. One Ignition.</div>
+
+    <!--welcome txt-->
+    <div class="welcome">
+      Welcome to the Chambers. The doors are locked, the signal is dead, and the architecture is watching you. 
+      You have three scrolls to guide you through the dark.
+      <br><em>Let's see if you survive the night.</em> <br/>
+    </div>
+
+    <!--teams-->
+    <div class="teams-section">
+      <div class="teams-title">CHOOSE YOUR TEAM</div>
+      
+      <div class="scroll-container">
+        <div class="scroll-arrow left" onclick="scrollTeams(-1)">‹</div>
+        <div class="scroll-arrow right" onclick="scrollTeams(1)">›</div>
+        
+        <div class="teams-scroll" id="teams-scroll">
+          
+          <div class="team-card" onclick="selectTeam('Aegis', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="aegis.png" alt="Aegis">
+            </div>
+            <div class="team-name">AEGIS</div>
+          </div>
+
+          <div class="team-card" onclick="selectTeam('Elixir', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="potion.png" alt="Elixir">
+            </div>
+            <div class="team-name">ELIXIR</div>
+          </div>
+
+          <div class="team-card" onclick="selectTeam('Hippogriff', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="hippogriff.png" alt="Hippogriff">
+            </div>
+            <div class="team-name">HIPPOGRIFF</div>
+          </div>
+
+          <div class="team-card" onclick="selectTeam('Compass', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="compass.png" alt="Compass">
+            </div>
+            <div class="team-name">COMPASS</div>
+          </div>
+
+          <div class="team-card" onclick="selectTeam('Citrine', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="citrine.png" alt="Citrine">
+            </div>
+            <div class="team-name">CITRINE</div>
+          </div>
+
+          <div class="team-card" onclick="selectTeam('Willow', this)" onmouseenter="playSound('hover-sound')">
+            <div class="team-img">
+              <img src="willow.png" alt="Willow">
+            </div>
+            <div class="team-name">WILLOW</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!--enter btn-->
+    <div class="enter-section">
+      <button class="enter-btn" id="enter-btn" onclick="enterChamber()" disabled>
+        ENTER THE CHAMBER
+      </button>
+    </div>
+
+  </div>
+
+  <div id="dashboard">
+
+    <!--letter slots-->
+    <div class="panel">
+      <div class="letter-row" id="letter-row-dashboard">
+        <div class="letter-slot locked" id="slot-0"><span class="glyph">✦</span></div>
+        <div class="letter-slot locked" id="slot-1"><span class="glyph">✦</span></div>
+        <div class="letter-slot locked" id="slot-2"><span class="glyph">✦</span></div>
+      </div>
+      <div class="letter-caption">Collect all three keys to ignite the chamber</div>
+    </div>
+
+    <!--challenge pan-->
+    <div class="panel">
+      <div class="welcome-banner">
+        <div class="welcome-house" id="house-display">Team —</div>
+        <div class="welcome-sub">Your quest begins. Tread carefully.</div>
+      </div>
+      <div id="challenge-list"></div>
+    </div>
+
+    <!--lb panel-->
+    <div class="panel">
+      <div class="panel-header">
+        <span>📜</span>
+        <span>The Standing Scrolls</span>
+      </div>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Keys Found</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+    </div>
+
+    <!--pass pan-->
+    <div class="panel">
+      <div class="panel-header">
+        <span>The Final Incantation</span>
+      </div>
+      <div class="passcode-section">
+        <p class="passcode-lore">
+          You have gathered the ancient letters.<br/>
+          Speak the spell. <em>Let the chamber ignite.</em>
+        </p>
+        <div class="passcode-input-wrap">
+          <input type="text" class="passcode-input" id="passcode-input" placeholder="_ _ _ _ _" maxlength="5"/>
+          <button class="cast-btn" onclick="castSpell()">CAST</button>
+        </div>
+        <p class="passcode-error" id="passcode-error">
+          ✗ &nbsp; The chamber remains sealed. Try again.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!--YAY SCREEN-->
+<div id="win-screen">
+  
+  <video class="win-spark-video" muted autoplay loop playsinline>
+    <source src="forest.mp4" type="video/mp4">
+  </video>
+  <div class="win-title" id="win-title">COMPLETE</div>
+  <div class="win-house" id="win-house-name">Team — has unlocked the chamber!</div>
+  <div class="win-sub">
+    The chamber awakens. Knowledge flows freely once more.<br/>
+    <em>Your name shall echo through the halls of CoLab forever.</em>
+  </div>
+  <a href="https://mimixp3.github.io/Colab-Chambers/chamber-hub.html" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px; font-weight:bold; color:var(--gold);text-decoration:none;margin-top:32px;display:block;text-align:center;">←Archives</a>
+</div> <!--lord we finally wrappin it up-->
+
+<script>
+  //config
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMynZrXaSHpsrPrTv4yEziAoXcn4m9hKoYOdsPWRq9vzLJGTsULHgBd0zjZUQhoa88zQ/exec";
+  const CHALLENGES = [
+    {
+      id: 1,
+      name: "The Layered Cipher",
+      desc: "Multiple encryptions guard this key.",
+      letter: "R",
+      link: "https://mimixp3.github.io/Colab-Chambers/c2-demo.html",
+      unlocked: true,
+    },
+    {
+      id: 2,
+      name: "The Logic Oracle",
+      desc: "Fix the circuit. Find the path.",
+      letter: "A",
+      link: "https://mimixp3.github.io/Colab-Chambers/c4-demo.html",
+      unlocked: false,
+    },
+    {
+      id: 3,
+      name: "The Circuit Awakens",
+      desc: "Face the AI. Break its logic.",
+      letter: "G",
+      link: "https://mimixp3.github.io/Colab-Chambers/c5-demo.html",
+      unlocked: false,
+    },
+  ];
+
+  const LEADERBOARD = [
+    { team: "Aegis", completed: 0 },
+    { team: "Elixir", completed: 0 },
+    { team: "Hippogriff", completed: 0 },
+    { team: "Compass", completed: 0 },
+    { team: "Citrine", completed: 0 },
+    { team: "Willow", completed: 0 },
+  ];
+
+  const PASSCODE = "RAG";
+  const LETTERS = ["R", "A", "G"];
+
+  let selectedTeam = null;
+  let completedChallenges = [];
+
+  //audio func
+  function playSound(soundId) {
+    const audio = document.getElementById(soundId);
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log('Sound:', e));
+    }
+  }
+
+  //team selecting
+  function selectTeam(teamName, card) {
+    playSound('click-sound');
+    selectedTeam = teamName;
+    document.querySelectorAll('.team-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById('enter-btn').disabled = false;
+  }
+
+  function scrollTeams(dir) {
+    document.getElementById('teams-scroll').scrollBy({
+      left: dir * 200,
+      behavior: 'smooth'
+    });
+  }
+
+  function enterChamber() {
+    if (!selectedTeam) return;
+    playSound('click-sound');
+    
+    document.getElementById('landing-page').style.display = 'none';
+    document.getElementById('dashboard').classList.add('active');
+    document.getElementById('castle-video').style.display = 'none';
+    document.getElementById('hall-bg').classList.add('active');
+    
+    document.getElementById('house-display').textContent = `Team ${selectedTeam}`;
+    
+    buildChallenges();
+    buildLeaderboard();
+    fetchLeaderboard();
+  }
+
+  //slot func
+  function updateLetterSlots() {
+    LETTERS.forEach((letter, i) => {
+      const slot = document.getElementById(`slot-${i}`);
+      const challengeId = i + 1;
+      
+      if (completedChallenges.includes(challengeId)) {
+        slot.classList.remove('locked');
+        slot.classList.add('revealed');
+        slot.querySelector('.glyph').textContent = letter;
+      }
+    });
+  }
+
+  //challenge func
+  function buildChallenges() {
+    const list = document.getElementById('challenge-list');
+    list.innerHTML = '';
+    
+    CHALLENGES.forEach(ch => {
+      const div = document.createElement('div');
+      div.className = `challenge-item ${ch.unlocked ? 'unlocked' : 'locked'}`;
+      
+      if (ch.unlocked) {
+        div.onclick = () => {
+          playSound('click-sound');
+          window.open(ch.link, '_blank');
+        };
+      }
+      
+      div.innerHTML = `
+        <div class="challenge-header">
+          <span class="challenge-number">${ch.id}</span>
+          <span class="challenge-status ${ch.unlocked ? 'status-unlocked' : 'status-locked'}">
+            ${ch.unlocked ? 'UNLOCKED' : 'LOCKED'}
+          </span>
+        </div>
+        <div class="challenge-name">${ch.name}</div>
+        <div class="challenge-desc">${ch.desc}</div>
+      `;
+      
+      list.appendChild(div);
+    });
+  }
+
+  //leaderboard func
+  function buildLeaderboard() {
+    const tbody = document.getElementById('leaderboard-body');
+    tbody.innerHTML = '';
+    const sorted = [...LEADERBOARD].sort((a,b) => b.completed - a.completed);
+    sorted.forEach(t => {
+      const dots = Array(5).fill(0).map((_,i) =>
+        `<div class="dot ${i < t.completed ? 'filled' : ''}"></div>`
+      ).join('');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="team-badge">${t.team}</span></td>
+        <td><div class="progress-dots">${dots}</div></td>
+        <td style="font-family:'Cinzel',serif;font-size:15px;letter-spacing:2px;">
+          ${t.completed === 5 ? '<span style="color:var(--gold)">✦ COMPLETE</span>' : `${t.completed} / 5`}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  //sheets app script func
+  async function fetchLeaderboard() {
+    if (!APPS_SCRIPT_URL) return;
+    
+    try {
+      const response = await fetch(APPS_SCRIPT_URL);
+      const data = await response.json();
+      
+      if (data.leaderboard) {
+        LEADERBOARD.length = 0;
+        data.leaderboard.forEach(item => {
+          LEADERBOARD.push({
+            team: item.team,
+            completed: item.completed
+          });
+        });
+        buildLeaderboard();
+
+        //update lb
+        if (selectedTeam) {
+          const myTeam = data.leaderboard.find(t => t.team.toLowerCase() === selectedTeam.toLowerCase());
+          
+          if (myTeam && myTeam.challenges) {
+            //unlock team
+            CHALLENGES[0].unlocked = true;
+            CHALLENGES[1].unlocked = myTeam.challenges.c1;
+            CHALLENGES[2].unlocked = myTeam.challenges.c2;
+            CHALLENGES[3].unlocked = myTeam.challenges.c3;
+            CHALLENGES[4].unlocked = myTeam.challenges.c4;
+            
+            //letter rev
+            completedChallenges = [];
+            if (myTeam.challenges.c1) completedChallenges.push(1);
+            if (myTeam.challenges.c2) completedChallenges.push(2);
+            if (myTeam.challenges.c3) completedChallenges.push(3);
+            if (myTeam.challenges.c4) completedChallenges.push(4);
+            if (myTeam.challenges.c5) completedChallenges.push(5);
+            
+            updateLetterSlots();
+            buildChallenges();
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Sync error:', err);
+    }
+  }
+
+  //auto ref
+  setInterval(fetchLeaderboard, 10000);
+
+  //pass func
+  function castSpell() {
+    playSound('click-sound');
+    const input=document.getElementById('passcode-input').value.toUpperCase();
+    const error = document.getElementById('passcode-error');
+    
+    if (input===PASSCODE) {
+      error.classList.remove('show');
+      document.getElementById('win-title').textContent = input;
+      document.getElementById('win-house-name').textContent = `Team ${selectedTeam} has unlocked the chamber!`; //yasss mama
+      document.getElementById('win-screen').classList.add('show');
+      document.getElementById('castle-video').pause();
+      document.getElementById('castle-video').muted = true; //cus i need tew close that prev audio
+      const winVid = document.querySelector('.win-spark-video');
+      winVid.muted = false;
+      winVid.play();
+    } else {
+      error.classList.add('show');
+      setTimeout(() => error.classList.remove('show'), 3000);
+    }
+  }
+
+  //audio func
+  const fireplaceVideo = document.getElementById('castle-video');
+  let videoMuted = false;
+
+  function toggleAudio() {
+    const icon = document.getElementById('audio-icon');
+    const toggle = document.getElementById('audio-toggle');
+    
+    if (videoMuted) {
+      fireplaceVideo.muted = false;
+      toggle.classList.remove('muted');
+      videoMuted = false;
+    } else {
+      fireplaceVideo.muted = true;
+      toggle.classList.add('muted');
+      videoMuted = true;
+    }
+  }
+
+  //autoplay
+  fireplaceVideo.play().catch(e => {
+    fireplaceVideo.muted = true;
+    fireplaceVideo.play();
+    videoMuted = true;
+    document.getElementById('audio-toggle').classList.add('muted');
+  });
+</script>
+
+</body>
+</html>
