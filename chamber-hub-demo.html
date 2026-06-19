@@ -786,7 +786,7 @@
 
 <script>
   //config
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzMynZrXaSHpsrPrTv4yEziAoXcn4m9hKoYOdsPWRq9vzLJGTsULHgBd0zjZUQhoa88zQ/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdLNo_c00GwtwyDANHmQbSytJdBXhIhjHzcDbhm1gLuoTNRDvV9CSc00Py4PJCyILR/exec";
   const CHALLENGES = [
     {
       id: 1,
@@ -921,7 +921,7 @@
     tbody.innerHTML = '';
     const sorted = [...LEADERBOARD].sort((a,b) => b.completed - a.completed);
     sorted.forEach(t => {
-      const dots = Array(5).fill(0).map((_,i) =>
+      const dots = Array(3).fill(0).map((_,i) =>
         `<div class="dot ${i < t.completed ? 'filled' : ''}"></div>`
       ).join('');
       const tr = document.createElement('tr');
@@ -929,7 +929,7 @@
         <td><span class="team-badge">${t.team}</span></td>
         <td><div class="progress-dots">${dots}</div></td>
         <td style="font-family:'Cinzel',serif;font-size:15px;letter-spacing:2px;">
-          ${t.completed === 5 ? '<span style="color:var(--gold)">✦ COMPLETE</span>' : `${t.completed} / 5`}
+          ${t.completed === 3 ? '<span style="color:var(--gold)">✦ COMPLETE</span>' : `${t.completed} / 3`}
         </td>
       `;
       tbody.appendChild(tr);
@@ -963,16 +963,13 @@
             CHALLENGES[0].unlocked = true;
             CHALLENGES[1].unlocked = myTeam.challenges.c1;
             CHALLENGES[2].unlocked = myTeam.challenges.c2;
-            CHALLENGES[3].unlocked = myTeam.challenges.c3;
-            CHALLENGES[4].unlocked = myTeam.challenges.c4;
             
             //letter rev
             completedChallenges = [];
             if (myTeam.challenges.c1) completedChallenges.push(1);
             if (myTeam.challenges.c2) completedChallenges.push(2);
             if (myTeam.challenges.c3) completedChallenges.push(3);
-            if (myTeam.challenges.c4) completedChallenges.push(4);
-            if (myTeam.challenges.c5) completedChallenges.push(5);
+            
             
             updateLetterSlots();
             buildChallenges();
