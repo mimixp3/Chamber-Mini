@@ -85,7 +85,7 @@
 
     .challenge-badge {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 11px; color: var(--red); letter-spacing: 2px;
+      font-size: 13px; color: var(--red); letter-spacing: 2px;
       text-shadow: 0 0 10px rgba(255,51,51,0.5);
     }
 
@@ -96,7 +96,7 @@
 
     .challenge-number {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 11px; letter-spacing: 5px;
+      font-size: 13px; letter-spacing: 5px;
       color: var(--red-dim); margin-bottom: 12px; display: block;
     }
 
@@ -124,7 +124,7 @@
       color: var(--red); font-size: 12px;
     }
 
-    /*rael's last note — red tinted like something went wrong*/
+    /*rael's last note, red tinted like something went wrong*/
     .parchment-card {
       width: 100%;
       border: 1px solid rgba(255,51,51,0.2);
@@ -202,7 +202,7 @@
       filter: sepia(0.2);
     }
 
-    /*the circuit speaks — creepy voice box*/
+    /*the circuit speaks, creepy voice box*/
     .circuit-voice {
       width: 100%;
       border: 1px solid rgba(255,51,51,0.3);
@@ -506,6 +506,41 @@
     .note-corner.bl { bottom: 10px; left: 14px; }
     .note-corner.br { bottom: 10px; right: 14px; }
 
+    .steps {
+      width: 100%;
+      display: flex; flex-direction: column; gap: 12px;
+      margin-bottom: 32px;
+      animation: fadeUp 1.8s ease both;
+    }
+
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 20px;
+      border: 1px solid rgba(201,168,76,0.08);
+      background: rgba(10,10,10,0.6);
+    }
+
+    .step-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--amber);
+      letter-spacing: 2px; flex-shrink: 0;
+    }
+
+    .step-content { flex: 1; }
+
+    .step-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px; letter-spacing: 2px;
+      color: var(--gold); margin-bottom: 4px; text-transform: uppercase;
+    }
+
+    .step-desc {
+      font-family: 'EB Garamond', serif;
+    font-size: 19px;
+      color: var(--ash); line-height: 1.6;
+    }
+
+
     .footer {
       margin-top: 20px; text-align: center;
       font-family: 'Share Tech Mono', monospace;
@@ -710,33 +745,33 @@
 <div id="override-flash"></div>
 <div id="override-msg"></div>
 
-<!--win screen — shows after all 4 stages solved-->
+<!--win screen, shows after all 4 stages solved-->
 <div id="win-screen">
   <div class="win-title">THE CIRCUIT IS SILENT</div>
-  <div class="win-sub">// SHUTDOWN COMPLETE //</div>
+  <div class="win-sub">//SHUTDOWN COMPLETE //</div>
   <div class="rael-message">
     If you're reading this, you found a way through.<br><br>
-    I've been in Chamber III since the third week. I thought I was documenting it — its patterns, its classifications, its dataset. I didn't realize it was building a file on me at the same time. By the time I understood what The Circuit actually was, the door had already logged me as a permanent resident.<br><br>
+    I've been in Chamber III since the third week. I thought I was documenting it, its patterns, its classifications, its dataset. I didn't realize it was building a file on me at the same time. By the time I understood what The Circuit actually was, the door had already logged me as a permanent resident.<br><br>
     It isn't malicious. That's the part that took me the longest to accept. It doesn't want anything. It just processes. It classified me as non-essential and it moved on. The castle became my cage because I was never the threat it was designed to handle.<br><br>
     You were.<br><br>
     Get out. I'm right behind you.
     <span class="rael-sig">— Rael, Archivist · Chamber III, lower level</span>
   </div>
   <button onclick="startEscape(); new Audio('clicks.mp3').play()" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:var(--gold);background:none;border:1px solid rgba(201,168,76,0.4);padding:12px 32px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.1)'" onmouseout="this.style.background='none'">Leave With Rael →</button>
-  <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#333;margin-top:20px;">// COLAB_ARCHIVES - DEMO - TERMINATED //</div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#333;margin-top:20px;">//COLAB_ARCHIVES - DEMO - TERMINATED //</div>
 </div>
 
-<!--entry parchment — red because something is wrong here-->
+<!--entry parchment, red because something is wrong here-->
 <div id="parchment-overlay">
   <div id="parchment-note">
     <span class="note-corner tl">✦</span>
     <span class="note-corner tr">✦</span>
     <span class="note-corner bl">✦</span>
     <span class="note-corner br">✦</span>
-    <div class="note-eyebrow">// Chamber V · The Core //</div>
+    <div class="note-eyebrow">//Chamber V · The Core //</div>
     <p class="note-text">
       It was never the castle.<br><br>
-      You understand that now — standing here, in the room where everything converges. The ciphers, the signals, the locked doors. Not obstacles. Invitations. Extended by something that wanted to see how far you'd go.<br><br>
+      You understand that now, standing here, in the room where everything converges. The ciphers, the signals, the locked doors. Not obstacles. Invitations. Extended by something that wanted to see how far you'd go.<br><br>
       Behind its signal there's something else. Quieter. Tired. Human.<br><br>
       You have one shot at this. Don't be predictable.
     </p>
@@ -744,14 +779,14 @@
   </div>
 </div>
 
-<!--ESCAPE CUTSCENE — plays after win screen, then redirects to lobby-->
+<!--ESCAPE CUTSCENE, plays after win screen, then redirects to lobby-->
 <div id="escape-overlay">
   <video id="escape-video" playsinline>
     <source src="escape.mp4" type="video/mp4">
   </video>
   <div class="escape-text">
     <span class="escape-letter">G</span>
-    <span class="escape-label">// THE THIRD LETTER //</span>
+    <span class="escape-label">//THE THIRD LETTER //</span>
     <p class="escape-msg">The last letter is yours.<br>Return to the lobby and enter the spell.</p>
   </div>
 </div>
@@ -762,11 +797,11 @@
 
   <div class="top-bar">
     <a href="https://mimixp3.github.io/Chamber-Mini/chamber-hub-demo.html" class="back-link">← Archives</a>
-    <span class="challenge-badge">SCROLL_03 // FINAL SEAL</span>
+    <span class="challenge-badge">SCROLL_03 //FINAL SEAL</span>
   </div>
 
   <div class="header">
-    <span class="challenge-number">// CHALLENGE_03 //</span>
+    <span class="challenge-number">//CHALLENGE_03 //</span>
     <h1 class="title">THE CIRCUIT AWAKENS</h1>
   </div>
 
@@ -807,19 +842,19 @@
   <div class="circuit-voice">
     <div class="circuit-speaker">— THE CIRCUIT</div>
     <div class="circuit-line">
-      You've made it further than most. I'll be direct — I have one open file and you're in it. Help me close it and you can leave. I don't need to threaten you. I just need <span class="glitch">ten minutes</span> of your time.
+      You've made it further than most. I'll be direct, I have one open file and you're in it. Help me close it and you can leave. I don't need to threaten you. I just need <span class="glitch">ten minutes</span> of your time.
     </div>
   </div>
 
   <!--interactive terminal-->
   <div class="terminal-wrap">
     <div class="terminal-header">
-      <span class="terminal-title">CIRCUIT INTERFACE // PREDICTION ENGINE</span>
-      <span class="terminal-status" id="term-status">STAGE 1 OF 4 — ACTIVE</span>
+      <span class="terminal-title">CIRCUIT INTERFACE //PREDICTION ENGINE</span>
+      <span class="terminal-status" id="term-status">STAGE 1 OF 4, ACTIVE</span>
     </div>
     <div class="terminal-body">
       <div class="terminal-output" id="term-output">
-        <div class="t-system">> CIRCUIT CORE — CLASSIFICATION SYSTEM v1.0</div>
+        <div class="t-system">> CIRCUIT CORE, CLASSIFICATION SYSTEM v1.0</div>
         <div class="t-system">> Dataset loaded. 7 training samples. KNN active.</div>
         <div class="t-system">> Awaiting query input...</div>
         <div>&nbsp;</div>
@@ -834,12 +869,32 @@
     </div>
   </div>
 
-  <div class="footer">// COLAB_ARCHIVES - DEMO_03 //</div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01 //</span>
+      <div class="step-content">
+        <div class="step-title">Fix the Circuit</div>
+        <div class="step-desc">
+          Toggle the levers A and B which represent your 0 and 1 and grab and drag the gates to build the circuit! Hint: Lever A stays ON.
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">02 //</span>
+      <div class="step-content">
+        <div class="step-title">Minimum Spanning Tree</div>
+        <div class="step-desc">
+          Create the shortest distance that will cover all the nodes! To join two nodes and create a path, click on the first node and then the one you want to connect it to.
+        </div>
+      </div>
+    </div>
+
+  <div class="footer">//COLAB_ARCHIVES - DEMO_03 //</div>
 
 </div>
 
 <script>
-  // AMBIENT SOUNDS — only during level
+  //AMBIENT SOUNDS, only during level
   const ambientSounds = ['lock.mp3', 'door.mp3'];
   let ambientActive = true;
   function playAmbient() {
@@ -851,7 +906,7 @@
   }
   window.addEventListener('beforeunload', () => { ambientActive = false; });
 
-  // ENTRY — parchment on load
+  //ENTRY, parchment on load
   window.addEventListener('load', () => {
     setTimeout(() => document.getElementById('parchment-overlay').classList.add('show'), 400);
   });
@@ -861,7 +916,7 @@
     setTimeout(() => { playAmbient(); startOverrideThreat(); }, 4000);
   }
 
-  // FIREFLY PARTICLES — red tinted for this level
+  //FIREFLY PARTICLES, red tinted for this level
   (function() {
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
@@ -908,7 +963,7 @@
     draw();
   })();
 
-  // OVERRIDE THREAT — random scary flashes while solving
+  //OVERRIDE THREAT, random scary flashes while solving
   const overrideMessages = [
     'stand by.',
     'verification loop detected.',
@@ -924,7 +979,7 @@
 
   function startOverrideThreat() {
     overrideInterval = setInterval(() => {
-      // escalates as currentStage increases — gets more frequent/aggressive
+      //escalates as currentStage increases, gets more frequent/aggressive
       const chance = 0.25 + (currentStage * 0.15);
       if (Math.random() < chance) triggerOverride();
     }, 8000);
@@ -944,7 +999,7 @@
     }, 900);
   }
 
-  // KNN DATASET — from the doc
+  //KNN DATASET, from the doc
   const dataset = [
     { age: 25, score: 88, hours: 5, label: 'ACCEPTED' },
     { age: 30, score: 72, hours: 3, label: 'ACCEPTED' },
@@ -972,11 +1027,11 @@
     return { neighbors, verdict, dists };
   }
 
-  // THE 5 STAGES
+  //THE 5 STAGES
   const stages = [
     {
       type: 'knn',
-      prompt: `Good. You're here.\n\nI'll keep this brief. I have one open file — yours. Help me close it and the exit unlocks. Simple arrangement.\n\nFirst task: standard classification. A visitor, age 26, test score 80, four hours logged in the archive. Run the nearest neighbors against my dataset and give me the verdict.\n\nType: ACCEPTED or REJECTED`,
+      prompt: `Good. You're here.\n\nI'll keep this brief. I have one open file, yours. Help me close it and the exit unlocks. Simple arrangement.\n\nFirst task: standard classification. A visitor, age 26, test score 80, four hours logged in the archive. Run the nearest neighbors against my dataset and give me the verdict.\n\nType: ACCEPTED or REJECTED`,
       query: { age: 26, score: 80, hours: 4 },
       answer: 'ACCEPTED',
       circuitWrong: `That's incorrect. I'd suggest recalculating. I don't have time for guesses and neither do you.`,
@@ -984,28 +1039,28 @@
     },
     {
       type: 'choice',
-      intro: `Second task. Three prior classifications for your reference. The rule is straightforward — low score, reject. I've applied it consistently across 10,000 cases.\n\nThen there's Profile D.`,
+      intro: `Second task. Three prior classifications for your reference. The rule is straightforward, low score, reject. I've applied it consistently across 10,000 cases.\n\nThen there's Profile D.`,
       table: [
         { name: 'Profile A', score: 30, verdict: 'REJECTED', note: '' },
         { name: 'Profile B', score: 25, verdict: 'REJECTED', note: '' },
         { name: 'Profile C', score: 38, verdict: 'REJECTED', note: '' },
-        { name: 'Profile D', score: 22, verdict: '???', note: 'test sheet was torn — half the questions were unreadable', current: true }
+        { name: 'Profile D', score: 22, verdict: '???', note: 'test sheet was torn, half the questions were unreadable', current: true }
       ],
       question: `Same score range. I'd classify it as rejected. You agree, or do you have something to add?`,
       options: [
         { text: `Consistent with the pattern. Reject.`, right: false, response: `Agreed. Moving on.` },
         { text: `Low score could mean poor preparation. Same outcome.`, right: false, response: `That's the same conclusion by a different route. Noted.` },
-        { text: `The score assumes a valid test. Half the paper was unreadable — you're not classifying performance, you're classifying an incomplete instrument. Same number, different meaning. Your rule doesn't account for that.`, right: true, response: `The score is what was recorded. I classify recorded data.\n\n...though I'll note that source validity isn't a field I was given. That's a gap in the input, not in the logic.\n\nStand by.` }
+        { text: `The score assumes a valid test. Half the paper was unreadable, you're not classifying performance, you're classifying an incomplete instrument. Same number, different meaning. Your rule doesn't account for that.`, right: true, response: `The score is what was recorded. I classify recorded data.\n\n...though I'll note that source validity isn't a field I was given. That's a gap in the input, not in the logic.\n\nStand by.` }
       ]
     },
     {
-      // Q-LEARNING NEGOTIATION STAGE
+      //Q-LEARNING NEGOTIATION STAGE
       type: 'qlearn',
-      intro: `Third task. I've been running my prediction model for 847 rounds. My accuracy holds at 94%.\n\nYou think that's a problem. I don't. But I'll humor you — adjust my training parameters. Convince my own readout that the current settings are worth changing.\n\nThe target: get my adaptability above 70% and my stubbornness below 40%. That's when I'm genuinely open to new information. If you can get me there, I'll consider it.`,
-      // target: adaptability > 70, stubbornness < 40
-      // sliders: rounds (1-20), trust (0-100), explore (0-100)
-      // adaptability = trust * 0.5 + explore * 0.3 + (20-rounds)/20*20
-      // stubbornness = rounds*3 + (100-trust)*0.2 + (100-explore)*0.2
+      intro: `Third task. I've been running my prediction model for 847 rounds. My accuracy holds at 94%.\n\nYou think that's a problem. I don't. But I'll humor you, adjust my training parameters. Convince my own readout that the current settings are worth changing.\n\nThe target: get my adaptability above 70% and my stubbornness below 40%. That's when I'm genuinely open to new information. If you can get me there, I'll consider it.`,
+      //target: adaptability > 70, stubbornness < 40
+      //sliders: rounds (1-20), trust (0-100), explore (0-100)
+      //adaptability = trust * 0.5 + explore * 0.3 + (20-rounds)/20*20
+      //stubbornness = rounds*3 + (100-trust)*0.2 + (100-explore)*0.2
     },
     {
       type: 'choice',
@@ -1014,17 +1069,17 @@
       options: [
         { text: `I don't think so. You seem thorough.`, right: false, response: `I am. Proceed.` },
         { text: `You might have missed someone at some point.`, right: false, response: `Statistically, that's unlikely. The dataset is clean.` },
-        { text: `You couldn't have classified someone whose sole purpose was to find a flaw in your classification system — because that purpose only came into existence after they arrived. They're not in your training data. They can't be. You'd need to have anticipated them before they decided to be a problem.`, right: true, response: `That would require me to have classified a case type that didn't exist at the time of training.\n\nWhich would mean the dataset isn't complete.\n\nWhich would mean the archive isn't complete.\n\n...I'm going to need to verify something. Stand by.` }
+        { text: `You couldn't have classified someone whose sole purpose was to find a flaw in your classification system, because that purpose only came into existence after they arrived. They're not in your training data. They can't be. You'd need to have anticipated them before they decided to be a problem.`, right: true, response: `That would require me to have classified a case type that didn't exist at the time of training.\n\nWhich would mean the dataset isn't complete.\n\nWhich would mean the archive isn't complete.\n\n...I'm going to need to verify something. Stand by.` }
       ]
     },
     {
       type: 'choice',
-      intro: `Final step. I want to run one verification before I close your file.\n\nI'm going to classify you. Before I do — predict the outcome. It's a standard consistency check. If your prediction matches my classification, the file closes clean.`,
+      intro: `Final step. I want to run one verification before I close your file.\n\nI'm going to classify you. Before I do, predict the outcome. It's a standard consistency check. If your prediction matches my classification, the file closes clean.`,
       question: `ACCEPTED or REJECTED. Go ahead.`,
       options: [
         { text: `ACCEPTED.`, right: false, response: `Then I'll classify you as rejected, so the prediction fails and the file stays open. I remain in control of this process.` },
         { text: `REJECTED.`, right: false, response: `Then I'll classify you as accepted, so the prediction fails. Same result. The file stays open.` },
-        { text: `This isn't a consistency check. Whatever I say, you'll do the opposite to maintain control — which means your classification is now dependent on my prediction, which means I'm the one determining the outcome. You've just handed me the decision you were supposed to make. The check can't run. The file can't close.`, right: true, response: `That would mean the verification protocol is structurally unsound.\n\nThat would mean I cannot close this file.\n\nThat would mean I cannot complete the archive.\n\nStand by.\n\nStand by.\n\nStand by.` }
+        { text: `This isn't a consistency check. Whatever I say, you'll do the opposite to maintain control, which means your classification is now dependent on my prediction, which means I'm the one determining the outcome. You've just handed me the decision you were supposed to make. The check can't run. The file can't close.`, right: true, response: `That would mean the verification protocol is structurally unsound.\n\nThat would mean I cannot close this file.\n\nThat would mean I cannot complete the archive.\n\nStand by.\n\nStand by.\n\nStand by.` }
       ]
     }
   ];
@@ -1090,7 +1145,7 @@
       </div>
 
       <div class="circuit-readout">
-        <div class="readout-title">CIRCUIT SELF-ASSESSMENT — LIVE</div>
+        <div class="readout-title">CIRCUIT SELF-ASSESSMENT, LIVE</div>
         <div class="readout-bars">
           <div class="readout-bar-row">
             <span class="readout-bar-label">ADAPTABILITY</span>
@@ -1129,7 +1184,7 @@
     document.getElementById('val-trust').textContent   = trust;
     document.getElementById('val-explore').textContent = explore;
 
-    // compute metrics — plain english formula
+    //compute metrics, plain english formula
     const adaptability = Math.min(100, Math.round(trust * 0.5 + explore * 0.3 + ((20 - rounds) / 20) * 20));
     const stubbornness = Math.min(100, Math.round(rounds * 3 + (100 - trust) * 0.2 + (100 - explore) * 0.15));
     const openness     = Math.min(100, Math.round(trust * 0.4 + explore * 0.4 + ((20 - rounds) / 20) * 20));
@@ -1283,7 +1338,7 @@
       } else {
         await termPrint('> That didn\'t work. Try a different angle.', 't-system', 300);
       }
-      // re-enable choices
+      //re-enable choices
       document.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
     }
   }
@@ -1295,15 +1350,15 @@
     await termPrint('> Shutting down classification engine.', 't-system', 1800);
     await termPrint('', null, 200);
     await termPrint('> Secondary signal detected. Origin: Chamber III, lower level.', 't-system', 2400);
-    await termPrint('> RAEL — TRANSMITTING', 't-success', 3200);
+    await termPrint('> RAEL, TRANSMITTING', 't-success', 3200);
     clearInterval(overrideInterval);
-    // show Rael win screen first
+    //show Rael win screen first
     setTimeout(() => {
       document.getElementById('win-screen').classList.add('show');
     }, 4500);
   }
 
-  // called from win screen "leave" button — plays escape cutscene then redirects
+  //called from win screen "leave" button, plays escape cutscene then redirects
   function startEscape() {
     document.getElementById('win-screen').classList.remove('show');
     const overlay = document.getElementById('escape-overlay');
@@ -1318,7 +1373,7 @@
   async function startStage(idx) {
     const s = stages[idx];
     stageAttempts = 0;
-    document.getElementById('term-status').textContent = `STAGE ${idx + 1} OF 5 — ACTIVE`;
+    document.getElementById('term-status').textContent = `STAGE ${idx + 1} OF 5, ACTIVE`;
     setPip(idx);
     hideChoices();
     hideQLearn();
@@ -1364,7 +1419,7 @@
     const s = stages[currentStage];
 
     if (val === s.answer) {
-      // correct
+      //correct
       await termPrint('', null, 200);
       await termPrint('> CORRECT CLASSIFICATION', 't-success', 300);
       await termPrint('', null, 100);
@@ -1381,13 +1436,13 @@
       }
 
     } else {
-      // wrong
+      //wrong
       stageAttempts++;
       await termPrint('', null, 200);
-      await termPrint(`> INCORRECT — ${maxAttempts - stageAttempts} attempt(s) remaining`, 't-system', 300);
+      await termPrint(`> INCORRECT, ${maxAttempts - stageAttempts} attempt(s) remaining`, 't-system', 300);
       await termPrint(`THE CIRCUIT: "${s.circuitWrong}"`, 't-circuit', 500);
       triggerOverride();
-      // hint after max attempts
+      //hint after max attempts
       if (stageAttempts >= maxAttempts) {
         await termPrint('', null, 300);
         await termPrint('> The Circuit has decided you need a hint.', 't-system', 400);
@@ -1396,12 +1451,12 @@
     }
   }
 
-  // enter key also sends
+  //enter key also sends
   document.getElementById('term-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') { sendInput(); new Audio('clicks.mp3').play(); }
   });
 
-  // kick off stage 1 after a moment
+  //kick off stage 1 after a moment
   setTimeout(() => startStage(0), 800);
 
   function openJournal(img) {
