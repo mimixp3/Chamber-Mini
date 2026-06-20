@@ -684,31 +684,26 @@
       margin-bottom: 32px;
       animation: fadeUp 1.8s ease both;
     }
-
     .step {
       display: flex; gap: 16px; align-items: flex-start;
       padding: 16px 20px;
-      border: 1px solid rgba(201,168,76,0.08);
+      border: 1px solid rgba(255,51,51,0.08);
       background: rgba(10,10,10,0.6);
     }
-
     .step-num {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 11px; color: var(--amber);
+      font-size: 11px; color: var(--red);
       letter-spacing: 2px; flex-shrink: 0;
     }
-
     .step-content { flex: 1; }
-
     .step-title {
       font-family: 'Cinzel', serif;
       font-size: 15px; letter-spacing: 2px;
       color: var(--gold); margin-bottom: 4px; text-transform: uppercase;
     }
-
     .step-desc {
       font-family: 'EB Garamond', serif;
-    font-size: 19px;
+      font-size: 15px;
       color: var(--ash); line-height: 1.6;
     }
 
@@ -1051,11 +1046,11 @@
   <div class="screen-bezel">
     <div class="terminal-header">
       <span class="terminal-title">CIRCUIT INTERFACE // PREDICTION ENGINE</span>
-      <span class="terminal-status" id="term-status">STAGE 1 OF 5 — ACTIVE</span>
+      <span class="terminal-status" id="term-status">STAGE 1 OF 5: ACTIVE</span>
     </div>
     <div class="terminal-body">
       <div class="terminal-output" id="term-output">
-        <div class="t-system">CIRCUIT CORE — CLASSIFICATION SYSTEM v1.0</div>
+        <div class="t-system">CIRCUIT CORE - CLASSIFICATION SYSTEM v1.0</div>
       </div>
       <div class="terminal-input-row" id="term-input-row">
         <span class="terminal-prompt">►</span>
@@ -1069,24 +1064,28 @@
 </div>
 
   <div class="steps">
-    <div class="step">
-      <span class="step-num">01 //</span>
-      <div class="step-content">
-        <div class="step-title">Fix the Circuit</div>
-        <div class="step-desc">
-          Toggle the levers A and B which represent your 0 and 1 and grab and drag the gates to build the circuit! Hint: Lever A stays ON.
-        </div>
-      </div>
+  <div class="step">
+    <span class="step-num">01 //</span>
+    <div class="step-content">
+      <div class="step-title">Answer The Circuit</div>
+      <div class="step-desc">Read what The Circuit says carefully. Each stage is a trap in its own logic, your job is to find the crack.</div>
     </div>
-    <div class="step">
-      <span class="step-num">02 //</span>
-      <div class="step-content">
-        <div class="step-title">Minimum Spanning Tree</div>
-        <div class="step-desc">
-          Create the shortest distance that will cover all the nodes! To join two nodes and create a path, click on the first node and then the one you want to connect it to.
-        </div>
-      </div>
+  </div>
+  <div class="step">
+    <span class="step-num">02 //</span>
+    <div class="step-content">
+      <div class="step-title">Pick The Right Response</div>
+      <div class="step-desc">Some stages give you multiple choice answers, others need you to type or adjust settings. Wrong answers won't end the game, just try again.</div>
     </div>
+  </div>
+  <div class="step">
+    <span class="step-num">03 //</span>
+    <div class="step-content">
+      <div class="step-title">Break The System</div>
+      <div class="step-desc">Get through all 5 stages and The Circuit shuts itself down. That's how you win.</div>
+    </div>
+  </div>
+</div>
 
   <div class="footer">//COLAB_ARCHIVES - DEMO_03 //</div>
 
@@ -1579,7 +1578,7 @@
   async function startStage(idx) {
   const s = stages[idx];
   stageAttempts = 0;
-  document.getElementById('term-status').textContent = `STAGE ${idx + 1} OF 5 — ACTIVE`;
+  document.getElementById('term-status').textContent = `STAGE ${idx + 1} OF 5, ACTIVE`;
   setPip(idx);
   hideChoices();
   hideQLearn();
